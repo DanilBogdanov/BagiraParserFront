@@ -1,5 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import PricesPage from '@/pages/PricesPage';
+import CompetitorsPage from '@/pages/CompetitorsPage';
+import PagesPage from '@/pages/PagesPage';
 import { AppRoutes } from './routes';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export default function AppRouter() {
   return (
@@ -9,10 +13,10 @@ export default function AppRouter() {
           path={AppRoutes.Main}
           element={<Navigate to={AppRoutes.Prices} />}
         />
-        <Route path={AppRoutes.Prices} element={<div>Prices Page</div>} />
-        <Route path={AppRoutes.Competitors} element={<div>Competitors</div>} />
-        <Route path={AppRoutes.Pages} element={<div>Pages</div>} />
-        <Route path='*' element={<div>Not Found</div>} />
+        <Route path={AppRoutes.Prices} element={<PricesPage />} />
+        <Route path={AppRoutes.Competitors} element={<CompetitorsPage />} />
+        <Route path={AppRoutes.Pages} element={<PagesPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </>
   );
