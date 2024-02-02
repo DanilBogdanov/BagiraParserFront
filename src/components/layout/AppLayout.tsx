@@ -11,7 +11,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <>
       <Layout style={{ minHeight: '100vh' }}>
         <AppHeader></AppHeader>
-        {children}
+        <Layout>{children}</Layout>
         <AppFooter></AppFooter>
       </Layout>
     </>
