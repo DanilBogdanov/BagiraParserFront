@@ -1,10 +1,10 @@
-import { GoodMenu } from '@/types';
+import { GoodMenu, GoodMenuItem } from '@/types';
 import { MenuProps } from 'antd';
 import axios from 'axios';
 
 const BASE_URL = 'https://danildev.net';
 
-export async function getGoodMenu(): Promise<MenuProps['items']> {
+export async function getGoodMenu(): Promise<GoodMenuItem[]> {
   const path = `${BASE_URL}/api/bagira/v1/Menu`;
 
   const { data } = await axios.get<GoodMenu[]>(path);
@@ -15,15 +15,17 @@ export async function getGoodMenu(): Promise<MenuProps['items']> {
 
 const getMenuProps = (
   goodMenu: GoodMenu[],
-  level: number = 0
-): MenuProps['items'] => {
+  level: number = 0,
+  path: string = ''
+): GoodMenuItem[] => {
   return goodMenu.map((item) => ({
     ...item,
-    key: item.id,
+    key: item.id.toString(),
     label: item.name,
+    path,
     children:
-      item.children && level < 1
-        ? getMenuProps(item.children, level + 1)
+      item.children && level < 2
+        ? getMenuProps(item.children, level + 1, `${path}/${item.id}`)
         : null,
   }));
 };
