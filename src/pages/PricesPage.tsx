@@ -3,15 +3,14 @@ import { GoodMenuItem } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { Layout, Menu, MenuProps, Skeleton } from 'antd';
 import { SubMenuType } from 'antd/es/menu/hooks/useItems';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 const { Sider, Content } = Layout;
 
 export default function PricesPage() {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const selectedItemRef = useRef(null);
 
-  const { data, isSuccess, isLoading, isFetching } = useQuery({
+  const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['good-menu'],
     queryFn: getGoodMenu,
   });

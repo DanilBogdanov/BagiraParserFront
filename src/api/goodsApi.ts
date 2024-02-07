@@ -1,5 +1,4 @@
-import { GoodMenu, GoodMenuItem } from '@/types';
-import { MenuProps } from 'antd';
+import { GoodMenu, GoodMenuItem, BagiraGoodNameDto } from '@/types';
 import axios from 'axios';
 
 const BASE_URL = 'https://danildev.net';
@@ -11,6 +10,14 @@ export async function getGoodMenu(): Promise<GoodMenuItem[]> {
   const menuProps = getMenuProps(data);
 
   return menuProps;
+}
+
+export async function getBagiraGoodNames(): Promise<BagiraGoodNameDto[]> {
+  const path = `${BASE_URL}/api/bagira/v1/bagira/goods/names`;
+
+  const { data } = await axios.get<BagiraGoodNameDto[]>(path);
+
+  return data;
 }
 
 const getMenuProps = (
