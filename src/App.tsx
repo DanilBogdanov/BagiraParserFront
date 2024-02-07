@@ -5,6 +5,9 @@ import AppLayout from '@/components/layout/AppLayout';
 import ruRU from 'antd/locale/ru_RU';
 import 'antd/dist/reset.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import '@mantine/core/styles.css';
+
+import { MantineProvider } from '@mantine/core';
 
 const client = new QueryClient();
 
@@ -14,9 +17,11 @@ function App() {
       <ConfigProvider locale={ruRU}>
         <BrowserRouter>
           <QueryClientProvider client={client}>
-            <AppLayout>
-              <AppRouter />
-            </AppLayout>
+            <MantineProvider>
+              <AppLayout>
+                <AppRouter />
+              </AppLayout>
+            </MantineProvider>
           </QueryClientProvider>
         </BrowserRouter>
       </ConfigProvider>
