@@ -1,10 +1,11 @@
 import { getGoodMenu } from '@/api/goodsApi';
 import { GoodMenuItem } from '@/types';
+import { AppShellAside, AppShellSection, ScrollArea } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { Layout, Menu, MenuProps, Skeleton } from 'antd';
 import { SubMenuType } from 'antd/es/menu/hooks/useItems';
 import { useState } from 'react';
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export default function PricesPage() {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -43,19 +44,8 @@ export default function PricesPage() {
   };
 
   return (
-    <Layout hasSider>
-      <Sider
-        width={250}
-        theme='light'
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'sticky',
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-      >
+    <AppShellAside style={{ left: 0, right: 'unset' }}>
+      <AppShellSection grow component={ScrollArea}>
         {isLoading && <Skeleton active paragraph={{ rows: 20 }}></Skeleton>}
         {isSuccess && (
           <Menu
@@ -66,10 +56,10 @@ export default function PricesPage() {
             items={getMenuItems(data)}
           />
         )}
-      </Sider>
+      </AppShellSection>
       <Layout>
         <Content></Content>
       </Layout>
-    </Layout>
+    </AppShellAside>
   );
 }

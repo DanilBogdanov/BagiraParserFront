@@ -4,6 +4,7 @@ import { getParserCompanies } from '@/api/competitorsApi';
 import { ParserCompany, ParserPage } from '@/types';
 import { getParserPages } from '@/api/parserPagesApi';
 import { useState } from 'react';
+import { Button, Container, Group } from '@mantine/core';
 const { Sider, Content } = Layout;
 
 export default function PagesPage() {
@@ -60,6 +61,11 @@ export default function PagesPage() {
       </Sider>
       <Layout>
         <Content>
+          <Container>
+            <Group justify='flex-end'>
+              <Button variant='filled'>Add</Button>
+            </Group>
+          </Container>
           {selectedCompany}={JSON.stringify(parserPages)}
           {pagesIsSuccess && (
             <Table
