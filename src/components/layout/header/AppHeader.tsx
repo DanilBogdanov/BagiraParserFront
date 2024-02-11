@@ -1,9 +1,10 @@
 import {
   AppShellHeader,
-  AppShellNavbar,
   Burger,
+  Drawer,
   Flex,
   Group,
+  RemoveScroll,
 } from '@mantine/core';
 import AppLogo from './AppLogo';
 import AppBar from './appBar/AppBar';
@@ -34,9 +35,17 @@ export default function AppHeader({
           />
         </Group>
       </AppShellHeader>
-      <AppShellNavbar>
-        <AppBar />
-      </AppShellNavbar>
+      <Drawer
+        size={200}
+        hiddenFrom='xs'
+        position='right'
+        opened={isBurgerOpened}
+        onClose={toggleBurger}
+      >
+        <Drawer.Content pt={70} className={RemoveScroll.classNames.zeroRight}>
+          <AppBar onSelect={() => toggleBurger()} />
+        </Drawer.Content>
+      </Drawer>
     </>
   );
 }

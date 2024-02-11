@@ -1,14 +1,20 @@
-import { Layout, Menu, Skeleton, Table } from 'antd';
-import { useQuery } from '@tanstack/react-query';
+import {
+  AppShellMain,
+  AppShellNavbar,
+  AppShellSection,
+  Container,
+  NavLink,
+  ScrollArea,
+  Skeleton,
+} from '@mantine/core';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getParserCompanies } from '@/api/competitorsApi';
-import { ParserCompany, ParserPage } from '@/types';
-import { getParserPages } from '@/api/parserPagesApi';
-import { useState } from 'react';
-import { Button, Container, Group } from '@mantine/core';
-const { Sider, Content } = Layout;
+import { getParserPages, setParserPageStatus } from '@/api/parserPagesApi';
+import { usePagesStore } from '@/store/pagesStore';
+import PagesTable from '@/components/tables/PagesTable';
 
 export default function PagesPage() {
-  const [selectedCompany, setSelectedCompany] = useState<number | null>(null);
+  const { selectedCompanyId, setSelectedCompanyId } = usePagesStore();
   const {
     data: parserCompanies,
     isSuccess,
@@ -16,66 +22,66 @@ export default function PagesPage() {
   } = useQuery({
     queryKey: ['parser-companies'],
     queryFn: getParserCompanies,
+    staleTime: 1000 * 60 * 10,
   });
 
-  const {
-    data: parserPages,
-    isSuccess: pagesIsSuccess,
-    isFetching,
-  } = useQuery({
-    queryKey: ['parser-pages', selectedCompany],
-    enabled: !!selectedCompany,
-    queryFn: selectedCompany
-      ? () => getParserPages(selectedCompany)
+  const { data: parserPages, isFetching: pagesIsFetching } = useQuery({
+    queryKey: ['parser-pages', selectedCompanyId],
+    enabled: !!selectedCompanyId,
+    staleTime: 1000 * 60 * 10,
+    queryFn: selectedCompanyId
+      ? () => getParserPages(selectedCompanyId)
       : undefined,
   });
 
-  const getMenuItems = (companies: ParserCompany[]) => {
-    return companies.map((item) => ({
-      key: item.id,
-      label: item.name,
-    }));
-  };
-
-  const getTableData = (pages: ParserPage[]) => {
-    return pages.map((page, idx) => ({ idx: idx + 1, key: page.id, ...page }));
-  };
-
-  const columns = [
-    { title: '#', dataIndex: 'idx', key: 'idx' },
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Url', dataIndex: 'url', key: 'url' },
-  ];
+  const statusPageMutation = useMutation({
+    mutationFn: ({
+      parserCompanyId,
+      pageId,
+      isActive,
+    }: {
+      parserCompanyId: number;
+      pageId: number;
+      isActive: boolean;
+    }) => setParserPageStatus(parserCompanyId, pageId, isActive),
+  });
 
   return (
-    <Layout hasSider>
-      <Sider width={250} theme='light'>
-        {isLoading && <Skeleton active paragraph={{ rows: 3 }}></Skeleton>}
-        {isSuccess && (
-          <Menu
-            mode='inline'
-            items={getMenuItems(parserCompanies)}
-            onClick={({ key }) => setSelectedCompany(+key)}
-          />
-        )}
-      </Sider>
-      <Layout>
-        <Content>
-          <Container>
-            <Group justify='flex-end'>
-              <Button variant='filled'>Add</Button>
-            </Group>
-          </Container>
-          {selectedCompany}={JSON.stringify(parserPages)}
-          {pagesIsSuccess && (
-            <Table
-              dataSource={getTableData(parserPages)}
-              columns={columns}
-              loading={isFetching}
-            />
+    <>
+      <AppShellNavbar>
+        <AppShellSection grow component={ScrollArea}>
+          {isLoading && (
+            <>
+              <Skeleton height={30} mt={10}></Skeleton>
+              <Skeleton height={30} mt={10}></Skeleton>
+              <Skeleton></Skeleton>
+            </>
           )}
-        </Content>
-      </Layout>
-    </Layout>
+          {isSuccess &&
+            parserCompanies.map((company) => (
+              <NavLink
+                key={company.id}
+                label={company.name}
+                onClick={() => setSelectedCompanyId(company.id)}
+                active={company.id === selectedCompanyId}
+                variant='filled'
+              />
+            ))}
+        </AppShellSection>
+      </AppShellNavbar>
+      <AppShellMain>
+        <Container>
+          <PagesTable
+            pages={parserPages}
+            isLoading={pagesIsFetching}
+            actions={{
+              changeStatus: undefined,
+              edit: undefined,
+              delete: undefined,
+            }}
+          />
+        </Container>
+      </AppShellMain>
+    </>
   );
 }

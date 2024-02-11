@@ -3,11 +3,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@mantine/core/styles.css';
 
 import { MantineProvider } from '@mantine/core';
-import { useAppStore } from './store/store';
+import { useAppStore } from './store/appStore';
 import PricesPage from './pages/PricesPage';
 import CompetitorsPage from './pages/CompetitorsPage';
 import PagesPage from './pages/PagesPage';
 import { AppPages } from './types';
+import { ModalsProvider } from '@mantine/modals';
 
 const client = new QueryClient();
 
@@ -35,7 +36,9 @@ function App() {
     <>
       <QueryClientProvider client={client}>
         <MantineProvider>
-          <AppLayout>{getPage()}</AppLayout>
+          <ModalsProvider>
+            <AppLayout>{getPage()}</AppLayout>
+          </ModalsProvider>
         </MantineProvider>
       </QueryClientProvider>
     </>

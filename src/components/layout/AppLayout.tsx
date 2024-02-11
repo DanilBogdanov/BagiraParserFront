@@ -1,4 +1,4 @@
-import { AppShell, AppShellMain } from '@mantine/core';
+import { AppShell } from '@mantine/core';
 import AppHeader from './header/AppHeader';
 import { useDisclosure } from '@mantine/hooks';
 
@@ -14,16 +14,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <AppShell
         header={{ height: 60 }}
         navbar={{
-          width: 300,
+          width: { xs: 200, md: 300 },
           breakpoint: 'xs',
-          collapsed: { desktop: true, mobile: !burgerOpened },
+          collapsed: { desktop: false, mobile: false },
         }}
       >
         <AppHeader
           isBurgerOpened={burgerOpened}
           toggleBurger={toggleBurger}
         ></AppHeader>
-        <AppShellMain>{children}</AppShellMain>
+        {children}
       </AppShell>
     </>
   );
