@@ -7,13 +7,14 @@ import {
   ScrollArea,
   Skeleton,
 } from '@mantine/core';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getParserCompanies } from '@/api/competitorsApi';
 import { getParserPages, setParserPageStatus } from '@/api/parserPagesApi';
 import { usePagesStore } from '@/store/pagesStore';
 import PagesTable from '@/components/tables/PagesTable';
 
 export default function PagesPage() {
+  const queryClient = useQueryClient();
   const { selectedCompanyId, setSelectedCompanyId } = usePagesStore();
   const {
     data: parserCompanies,
@@ -25,7 +26,7 @@ export default function PagesPage() {
     staleTime: 1000 * 60 * 10,
   });
 
-  const { data: parserPages, isFetching: pagesIsFetching } = useQuery({
+  const { data: parserPages, isLoading: pagesIsLoading } = useQuery({
     queryKey: ['parser-pages', selectedCompanyId],
     enabled: !!selectedCompanyId,
     staleTime: 1000 * 60 * 10,
@@ -44,6 +45,11 @@ export default function PagesPage() {
       pageId: number;
       isActive: boolean;
     }) => setParserPageStatus(parserCompanyId, pageId, isActive),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['parser-pages', selectedCompanyId],
+      });
+    },
   });
 
   return (
@@ -73,9 +79,15 @@ export default function PagesPage() {
         <Container>
           <PagesTable
             pages={parserPages}
-            isLoading={pagesIsFetching}
+            isLoading={pagesIsLoading}
             actions={{
-              changeStatus: undefined,
+              add: undefined,
+              changeStatus: (page, isActive) =>
+                statusPageMutation.mutate({
+                  parserCompanyId: page.parserCompanyId,
+                  pageId: page.id,
+                  isActive,
+                }),
               edit: undefined,
               delete: undefined,
             }}

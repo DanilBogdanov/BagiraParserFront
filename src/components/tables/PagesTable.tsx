@@ -15,6 +15,7 @@ type PagesTableProps = {
   pages?: ParserPage[];
   isLoading: boolean;
   actions: {
+    add?: (name: string, url: string) => void;
     changeStatus?: (page: ParserPage, isActive: boolean) => void;
     edit?: (page: ParserPage) => void;
     delete?: (page: ParserPage) => void;
@@ -62,18 +63,39 @@ export default function PagesTable({
   ));
 
   const openNewPageModal = () =>
-    modals.openConfirmModal({
+    openPageModal({
       title: 'Add Page',
-      children: <PagesForm />,
-      labels: { confirm: 'Create', cancel: 'Cancel' },
-      centered: true,
+      onSubmit: (name, url) => actions.add && actions.add(name, url),
     });
 
   const openEditPageModal = (page: ParserPage) =>
-    modals.openConfirmModal({
+    openPageModal({
       title: 'Edit Page',
-      children: <PagesForm page={page} />,
-      labels: { confirm: 'Edit', cancel: 'Cancel' },
+      page,
+      onSubmit: (name, url) =>
+        actions.edit && actions.edit({ ...page, name, url }),
+    });
+
+  const openPageModal = ({
+    title,
+    page,
+    onSubmit,
+  }: {
+    title: string;
+    page?: ParserPage;
+    onSubmit: (name: string, url: string) => void;
+  }) =>
+    modals.open({
+      title,
+      children: (
+        <PagesForm
+          page={page}
+          onSubmit={(name, url) => {
+            onSubmit(name, url);
+            modals.closeAll();
+          }}
+        />
+      ),
       centered: true,
     });
 

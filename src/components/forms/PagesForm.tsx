@@ -1,12 +1,13 @@
 import { ParserPage } from '@/types';
-import { Button, TextInput } from '@mantine/core';
+import { Button, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 type PagesFormProps = {
   page?: ParserPage;
+  onSubmit: (name: string, url: string) => void;
 };
 
-export default function PagesForm({ page }: PagesFormProps) {
+export default function PagesForm({ page, onSubmit }: PagesFormProps) {
   const form = useForm({
     initialValues: {
       name: page?.name ?? '',
@@ -21,7 +22,9 @@ export default function PagesForm({ page }: PagesFormProps) {
 
   return (
     <>
-      <form>
+      <form
+        onSubmit={form.onSubmit((values) => onSubmit(values.name, values.url))}
+      >
         <TextInput
           withAsterisk
           label='Name'
@@ -29,12 +32,15 @@ export default function PagesForm({ page }: PagesFormProps) {
           {...form.getInputProps('name')}
         />
         <TextInput
+          mt={'sm'}
           withAsterisk
           label='Url'
           placeholder='Enter url'
           {...form.getInputProps('url')}
         />
-        <Button type='submit'></Button>
+        <Group justify='flex-end' mt={'md'}>
+          <Button type='submit'>Save</Button>
+        </Group>
       </form>
     </>
   );
