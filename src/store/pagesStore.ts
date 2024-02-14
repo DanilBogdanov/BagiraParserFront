@@ -3,14 +3,14 @@ import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 type PagesStore = {
-  selectedCompanyId: number | null;
+  selectedCompanyId: number;
   setSelectedCompanyId: (id: number) => void;
 };
 
 export const usePagesStore = create<PagesStore>()(
   persist(
     immer((set) => ({
-      selectedCompanyId: null,
+      selectedCompanyId: 1,
       setSelectedCompanyId: (id: number) =>
         set((state) => {
           state.selectedCompanyId = id;
