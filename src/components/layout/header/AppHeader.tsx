@@ -1,24 +1,51 @@
-import { Header } from 'antd/es/layout/layout';
+import {
+  AppShellHeader,
+  Burger,
+  Drawer,
+  Flex,
+  Group,
+  RemoveScroll,
+} from '@mantine/core';
 import AppLogo from './AppLogo';
 import AppBar from './appBar/AppBar';
 
-export default function AppHeader() {
+type AppHeaderProps = {
+  isBurgerOpened: boolean;
+  toggleBurger: () => void;
+};
+
+export default function AppHeader({
+  isBurgerOpened,
+  toggleBurger,
+}: AppHeaderProps) {
   return (
     <>
-      <Header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          display: 'flex',
-          width: '100%',
-          alignItems: 'center',
-          backgroundColor: 'white',
-        }}
+      <AppShellHeader>
+        <Group h='100%' px='md'>
+          <Group h='100%' justify='space-between' style={{ flex: 1 }}>
+            <AppLogo />
+            <Flex h='100%' visibleFrom='xs'>
+              <AppBar />
+            </Flex>
+          </Group>
+          <Burger
+            opened={isBurgerOpened}
+            onClick={toggleBurger}
+            hiddenFrom='xs'
+          />
+        </Group>
+      </AppShellHeader>
+      <Drawer
+        size={200}
+        hiddenFrom='xs'
+        position='right'
+        opened={isBurgerOpened}
+        onClose={toggleBurger}
       >
-        <AppLogo />
-        <AppBar />
-      </Header>
+        <Drawer.Content pt={70} className={RemoveScroll.classNames.zeroRight}>
+          <AppBar onSelect={() => toggleBurger()} />
+        </Drawer.Content>
+      </Drawer>
     </>
   );
 }

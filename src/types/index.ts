@@ -1,3 +1,9 @@
+export enum AppPages {
+  Prices = 'Цены',
+  Competitors = 'Конкуренты',
+  Pages = 'Страницы',
+}
+
 export interface GoodMenu {
   id: number;
   name: string;

@@ -1,31 +1,31 @@
-import { Link } from 'react-router-dom';
-import { Menu } from 'antd';
-import { AppRoutes } from '@/router/routes';
+import { NavLink } from '@mantine/core';
+import { useAppStore } from '@/store/appStore';
+import { AppPages } from '@/types';
 
-const items = [
-  { key: AppRoutes.Prices, label: <Link to={AppRoutes.Prices}>Цены</Link> },
-  {
-    key: AppRoutes.Competitors,
-    label: <Link to={AppRoutes.Competitors}>Конкуренты</Link>,
-  },
-  { key: AppRoutes.Pages, label: <Link to={AppRoutes.Pages}>Страницы</Link> },
-];
-
-const getSelectedKeys = (): string[] => {
-  const key = items.find((item) => location.pathname.startsWith(item.key))?.key;
-
-  return key ? [key] : [];
+type AppBarProps = {
+  onSelect?: (page: AppPages) => void;
 };
 
-export default function AppBar() {
+export default function AppBar({ onSelect }: AppBarProps) {
+  const activePage = useAppStore((state) => state.activePage);
+  const setActivePage = useAppStore((state) => state.setActivePage);
+
+  const onLinkClick = (page: AppPages) => {
+    setActivePage(page);
+    onSelect && onSelect(page);
+  };
+
   return (
     <>
-      <Menu
-        mode='horizontal'
-        style={{ width: '100%', justifyContent: 'center' }}
-        items={items}
-        defaultSelectedKeys={getSelectedKeys()}
-      />
+      {Object.values(AppPages).map((page) => (
+        <NavLink
+          key={page}
+          label={page}
+          active={activePage === page}
+          onClick={() => onLinkClick(page)}
+          variant='filled'
+        />
+      ))}
     </>
   );
 }
