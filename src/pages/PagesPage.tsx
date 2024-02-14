@@ -7,8 +7,8 @@ import {
   ScrollArea,
   Skeleton,
 } from '@mantine/core';
-import { usePagesStore } from '@/store/pagesStore';
 import PagesTable from '@/components/tables/PagesTable';
+import { usePagesStore } from '@/store/pagesStore';
 import {
   useCompaniesQuery,
   useCreatePageMutation,
@@ -20,9 +20,13 @@ import {
 
 export default function PagesPage() {
   const { selectedCompanyId, setSelectedCompanyId } = usePagesStore();
-  const { data: parserCompanies, isSuccess, isLoading } = useCompaniesQuery();
 
-  const { data: parserPages, isLoading: pagesIsLoading } =
+  const {
+    data: companies,
+    isSuccess: isCompaniesSuccess,
+    isLoading: isCompaniesLoading,
+  } = useCompaniesQuery();
+  const { data: pages, isLoading: isPagesLoading } =
     usePagesQuery(selectedCompanyId);
 
   const statusPageMutation = useStatusPageMutation(selectedCompanyId);
@@ -34,15 +38,15 @@ export default function PagesPage() {
     <>
       <AppShellNavbar>
         <AppShellSection grow component={ScrollArea}>
-          {isLoading && (
+          {isCompaniesLoading && (
             <>
               <Skeleton height={30} mt={10}></Skeleton>
               <Skeleton height={30} mt={10}></Skeleton>
               <Skeleton></Skeleton>
             </>
           )}
-          {isSuccess &&
-            parserCompanies.map((company) => (
+          {isCompaniesSuccess &&
+            companies.map((company) => (
               <NavLink
                 key={company.id}
                 label={company.name}
@@ -56,8 +60,8 @@ export default function PagesPage() {
       <AppShellMain>
         <Container>
           <PagesTable
-            pages={parserPages}
-            isLoading={pagesIsLoading}
+            pages={pages}
+            isLoading={isPagesLoading}
             actions={{
               add: (name, url) =>
                 createPageMutation.mutate({
