@@ -1,6 +1,4 @@
-# Taskname
-
-## Resolve:
+**Resolve**:
 
 ### PR Type
 
