@@ -7,50 +7,28 @@ import {
   ScrollArea,
   Skeleton,
 } from '@mantine/core';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getParserCompanies } from '@/api/competitorsApi';
-import { getParserPages, setParserPageStatus } from '@/api/parserPagesApi';
 import { usePagesStore } from '@/store/pagesStore';
 import PagesTable from '@/components/tables/PagesTable';
+import {
+  useCompaniesQuery,
+  useCreatePageMutation,
+  useDeletePageMutation,
+  usePagesQuery,
+  useStatusPageMutation,
+  useUpdatePageMutation,
+} from '@/queries/pagesQueries';
 
 export default function PagesPage() {
-  const queryClient = useQueryClient();
   const { selectedCompanyId, setSelectedCompanyId } = usePagesStore();
-  const {
-    data: parserCompanies,
-    isSuccess,
-    isLoading,
-  } = useQuery({
-    queryKey: ['parser-companies'],
-    queryFn: getParserCompanies,
-    staleTime: 1000 * 60 * 10,
-  });
+  const { data: parserCompanies, isSuccess, isLoading } = useCompaniesQuery();
 
-  const { data: parserPages, isLoading: pagesIsLoading } = useQuery({
-    queryKey: ['parser-pages', selectedCompanyId],
-    enabled: !!selectedCompanyId,
-    staleTime: 1000 * 60 * 10,
-    queryFn: selectedCompanyId
-      ? () => getParserPages(selectedCompanyId)
-      : undefined,
-  });
+  const { data: parserPages, isLoading: pagesIsLoading } =
+    usePagesQuery(selectedCompanyId);
 
-  const statusPageMutation = useMutation({
-    mutationFn: ({
-      parserCompanyId,
-      pageId,
-      isActive,
-    }: {
-      parserCompanyId: number;
-      pageId: number;
-      isActive: boolean;
-    }) => setParserPageStatus(parserCompanyId, pageId, isActive),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['parser-pages', selectedCompanyId],
-      });
-    },
-  });
+  const statusPageMutation = useStatusPageMutation(selectedCompanyId);
+  const createPageMutation = useCreatePageMutation(selectedCompanyId);
+  const updatePageMutation = useUpdatePageMutation(selectedCompanyId);
+  const deletePageMutation = useDeletePageMutation(selectedCompanyId);
 
   return (
     <>
@@ -81,15 +59,22 @@ export default function PagesPage() {
             pages={parserPages}
             isLoading={pagesIsLoading}
             actions={{
-              add: undefined,
+              add: (name, url) =>
+                createPageMutation.mutate({
+                  id: 0,
+                  name,
+                  url,
+                  parserCompanyId: selectedCompanyId,
+                  isActive: true,
+                }),
               changeStatus: (page, isActive) =>
                 statusPageMutation.mutate({
                   parserCompanyId: page.parserCompanyId,
                   pageId: page.id,
                   isActive,
                 }),
-              edit: undefined,
-              delete: undefined,
+              edit: updatePageMutation.mutate,
+              delete: deletePageMutation.mutate,
             }}
           />
         </Container>
