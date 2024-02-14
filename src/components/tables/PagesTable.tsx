@@ -1,24 +1,17 @@
-import {
-  ActionIcon,
-  Button,
-  Group,
-  LoadingOverlay,
-  Switch,
-  Table,
-} from '@mantine/core';
-import { ParserPage } from '@/types';
-import { IconPencil, IconTrash } from '@tabler/icons-react';
-import { modals } from '@mantine/modals';
+import { Button, Group, LoadingOverlay, Table, Text } from '@mantine/core';
 import PagesForm from '../forms/PagesForm';
+import TableRow from './TableRow';
+import { modals } from '@mantine/modals';
+import { ParserPage } from '@/types';
 
 type PagesTableProps = {
   pages?: ParserPage[];
   isLoading: boolean;
   actions: {
-    add?: (name: string, url: string) => void;
-    changeStatus?: (page: ParserPage, isActive: boolean) => void;
-    edit?: (page: ParserPage) => void;
-    delete?: (page: ParserPage) => void;
+    add: (name: string, url: string) => void;
+    changeStatus: (page: ParserPage, isActive: boolean) => void;
+    edit: (page: ParserPage) => void;
+    delete: (page: ParserPage) => void;
   };
 };
 
@@ -27,41 +20,6 @@ export default function PagesTable({
   isLoading,
   actions,
 }: PagesTableProps) {
-  const tableRows = pages?.map((page, idx) => (
-    <Table.Tr key={page.id}>
-      <Table.Td>{idx + 1}</Table.Td>
-      <Table.Td>
-        <Switch
-          checked={page.isActive}
-          onChange={(event) =>
-            actions.changeStatus &&
-            actions.changeStatus(page, event.currentTarget.checked)
-          }
-        />
-      </Table.Td>
-      <Table.Td>{page.name}</Table.Td>
-      <Table.Td>{page.url}</Table.Td>
-      <Table.Td>
-        <Group gap={'xs'}>
-          <ActionIcon
-            variant='subtle'
-            color='green'
-            onClick={() => openEditPageModal(page)}
-          >
-            <IconPencil />
-          </ActionIcon>
-          <ActionIcon
-            variant='subtle'
-            color='red'
-            onClick={() => actions.delete && actions.delete(page)}
-          >
-            <IconTrash />
-          </ActionIcon>
-        </Group>
-      </Table.Td>
-    </Table.Tr>
-  ));
-
   const openNewPageModal = () =>
     openPageModal({
       title: 'Add Page',
@@ -99,6 +57,27 @@ export default function PagesTable({
       centered: true,
     });
 
+  const deletePageModal = (page: ParserPage) =>
+    modals.openConfirmModal({
+      title: 'Удалить страницу?',
+      children: <Text size='sm'>{page.name}</Text>,
+      centered: true,
+      labels: { confirm: 'Удалить', cancel: 'Отмена' },
+      confirmProps: { color: 'red' },
+      onConfirm: () => actions.delete(page),
+    });
+
+  const tableRows = pages?.map((page, idx) => (
+    <TableRow
+      key={page.id}
+      idx={idx + 1}
+      page={page}
+      onChangeStatus={actions.changeStatus}
+      onEdit={(page) => openEditPageModal(page)}
+      onDelete={(page) => deletePageModal(page)}
+    />
+  ));
+
   return (
     <>
       <Group justify='flex-end'>
@@ -110,7 +89,7 @@ export default function PagesTable({
         <LoadingOverlay visible={isLoading} />
         <Table.Thead>
           <Table.Th w={50}>#</Table.Th>
-          <Table.Th w={50}>Active</Table.Th>
+          <Table.Th w={60}>Active</Table.Th>
           <Table.Th>Name</Table.Th>
           <Table.Th>Url</Table.Th>
           <Table.Th w={100}>Actions</Table.Th>
