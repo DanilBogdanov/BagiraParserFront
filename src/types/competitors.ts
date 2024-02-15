@@ -23,3 +23,10 @@ export interface ParserGood {
   salePrice: number;
   imgUrl: string | null;
 }
+
+export interface ParserGoodRequest {
+  parserCompanyId: number;
+  brand: string;
+  take?: number;
+  skip?: number;
+}
