@@ -10,13 +10,13 @@ import {
 import PagesTable from '@/components/tables/PagesTable';
 import { usePagesStore } from '@/store/pagesStore';
 import {
-  useCompaniesQuery,
   useCreatePageMutation,
   useDeletePageMutation,
   usePagesQuery,
   useStatusPageMutation,
   useUpdatePageMutation,
 } from '@/queries/pagesQueries';
+import { useCompaniesQuery } from '@/queries/competitorsQuery';
 
 export default function PagesPage() {
   const { selectedCompanyId, setSelectedCompanyId } = usePagesStore();
