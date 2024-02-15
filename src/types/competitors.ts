@@ -26,7 +26,7 @@ export interface ParserGood {
 
 export interface ParserGoodRequest {
   parserCompanyId: number;
-  brand: string;
+  brand: string | null;
   take?: number;
   skip?: number;
 }
