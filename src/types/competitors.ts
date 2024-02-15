@@ -10,3 +10,16 @@ export interface ParserPage {
   isActive: boolean;
   url: string;
 }
+
+export interface ParserGood {
+  id: number;
+  parserCompanyId: number;
+  goodId: number | null;
+  lastUpdated: Date;
+  brand: string;
+  name: string;
+  weight: string;
+  price: number;
+  salePrice: number;
+  imgUrl: string | null;
+}
