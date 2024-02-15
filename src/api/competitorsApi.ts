@@ -1,4 +1,4 @@
-import { ParserCompany } from '@/types';
+import { ParserCompany } from '@/types/competitors';
 import axios from 'axios';
 
 const BASE_URL = 'https://danildev.net';

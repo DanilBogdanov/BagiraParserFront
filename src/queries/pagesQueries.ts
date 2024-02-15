@@ -5,7 +5,7 @@ import {
   setParserPageStatus,
   updateParserPage,
 } from '@/api/parserPagesApi';
-import { ParserPage } from '@/types';
+import { ParserPage } from '@/types/competitors';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const STALE_TIME = 1000 * 60 * 10;
