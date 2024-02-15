@@ -1,5 +1,5 @@
 import { Button, Group, LoadingOverlay, Table, Text } from '@mantine/core';
-import PagesForm from '../forms/PagesForm';
+import PagesForm from '../../forms/PagesForm';
 import TableRow from './TableRow';
 import { modals } from '@mantine/modals';
 import { ParserPage } from '@/types';

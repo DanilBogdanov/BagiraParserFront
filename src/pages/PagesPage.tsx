@@ -7,7 +7,7 @@ import {
   ScrollArea,
   Skeleton,
 } from '@mantine/core';
-import PagesTable from '@/components/tables/PagesTable';
+import PagesTable from '@/components/tables/pagesTable/PagesTable';
 import { usePagesStore } from '@/store/pagesStore';
 import {
   useCreatePageMutation,
