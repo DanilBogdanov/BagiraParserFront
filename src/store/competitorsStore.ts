@@ -6,7 +6,7 @@ type CompetitorsStore = {
   selectedCompanyId: number;
   setSelectedCompanyId: (id: number) => void;
   selectedBrand: string | null;
-  setSelectedBrand: (brand: string) => void;
+  setSelectedBrand: (brand: string | null) => void;
 };
 
 export const useCompetitorsStore = create<CompetitorsStore>()(
@@ -18,7 +18,7 @@ export const useCompetitorsStore = create<CompetitorsStore>()(
           state.selectedCompanyId = id;
         }),
       selectedBrand: null,
-      setSelectedBrand: (brand: string) =>
+      setSelectedBrand: (brand: string | null) =>
         set((state) => {
           state.selectedBrand = brand;
         }),
