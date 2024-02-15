@@ -30,3 +30,10 @@ export interface ParserGoodRequest {
   take?: number;
   skip?: number;
 }
+
+export interface ParserGoodResponse {
+  take: number;
+  skip: number;
+  total: number;
+  result: ParserGood[];
+}
