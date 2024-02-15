@@ -1,4 +1,3 @@
-import { getParserCompanies } from '@/api/competitorsApi';
 import {
   createParserPage,
   deleteParserPage,
@@ -10,13 +9,6 @@ import { ParserPage } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const STALE_TIME = 1000 * 60 * 10;
-
-export const useCompaniesQuery = () =>
-  useQuery({
-    queryKey: ['parser-companies'],
-    queryFn: getParserCompanies,
-    staleTime: STALE_TIME,
-  });
 
 export const usePagesQuery = (companyId: number) =>
   useQuery({
