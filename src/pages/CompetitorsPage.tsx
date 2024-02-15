@@ -1,6 +1,7 @@
 import {
   useCompaniesQuery,
   useParserBrandsQuery,
+  useParserGoodsQuery,
 } from '@/queries/competitorsQuery';
 import { useCompetitorsStore } from '@/store/competitorsStore';
 import { AppShell, NavLink, ScrollArea, Select, Skeleton } from '@mantine/core';
@@ -25,6 +26,20 @@ export default function CompetitorsPage() {
     isLoading: isBrandsLoading,
   } = useParserBrandsQuery(selectedCompanyId);
 
+  const {
+    data: goods,
+    isSuccess: isGoodsSuccess,
+    isLoading: isGoodsLoading,
+  } = useParserGoodsQuery({
+    parserCompanyId: selectedCompanyId,
+    brand: selectedBrand,
+  });
+
+  const onChangeCompany = (id: number) => {
+    setSelectedCompanyId(id);
+    setSelectedBrand(null);
+  };
+
   return (
     <>
       <AppShell.Navbar>
@@ -34,7 +49,7 @@ export default function CompetitorsPage() {
             <Select
               fw={700}
               value={selectedCompanyId.toString()}
-              onChange={(id) => id && setSelectedCompanyId(+id)}
+              onChange={(id) => id && onChangeCompany(+id)}
               data={companies.map((company) => ({
                 value: company.id.toString(),
                 label: company.name,
