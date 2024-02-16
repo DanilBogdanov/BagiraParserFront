@@ -1,7 +1,7 @@
+import ParserGoodTable from '@/components/tables/parserGoodTable/ParserGoodTable';
 import {
   useCompaniesQuery,
   useParserBrandsQuery,
-  useParserGoodsQuery,
 } from '@/queries/competitorsQuery';
 import { useCompetitorsStore } from '@/store/competitorsStore';
 import { AppShell, NavLink, ScrollArea, Select, Skeleton } from '@mantine/core';
@@ -25,15 +25,6 @@ export default function CompetitorsPage() {
     isSuccess: isBrandsSuccess,
     isLoading: isBrandsLoading,
   } = useParserBrandsQuery(selectedCompanyId);
-
-  const {
-    data: goods,
-    isSuccess: isGoodsSuccess,
-    isLoading: isGoodsLoading,
-  } = useParserGoodsQuery({
-    parserCompanyId: selectedCompanyId,
-    brand: selectedBrand,
-  });
 
   const onChangeCompany = (id: number) => {
     setSelectedCompanyId(id);
@@ -74,7 +65,14 @@ export default function CompetitorsPage() {
             ))}
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main></AppShell.Main>
+      <AppShell.Main>
+        {selectedCompanyId && selectedBrand && (
+          <ParserGoodTable
+            companyId={selectedCompanyId}
+            brand={selectedBrand}
+          />
+        )}
+      </AppShell.Main>
     </>
   );
 }

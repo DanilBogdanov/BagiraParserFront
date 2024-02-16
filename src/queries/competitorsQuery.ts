@@ -26,6 +26,5 @@ export const useParserGoodsQuery = (request: ParserGoodRequest) =>
   useQuery({
     queryKey: ['parser-goods', JSON.stringify(request)],
     queryFn: () => getParserGoods(request),
-    enabled: !!request.brand,
     staleTime: STALE_TIME,
   });
