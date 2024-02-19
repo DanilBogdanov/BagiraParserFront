@@ -29,6 +29,7 @@ export default function ParserGoodTable({
           <Table.Th w={50}>Link</Table.Th>
           <Table.Th>Name</Table.Th>
           <Table.Th>Price</Table.Th>
+          <Table.Th>Updated</Table.Th>
         </Table.Thead>
         <Table.Tbody>{tableRows}</Table.Tbody>
       </Table>

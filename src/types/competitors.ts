@@ -15,7 +15,7 @@ export interface ParserGood {
   id: number;
   parserCompanyId: number;
   goodId: number | null;
-  lastUpdated: Date;
+  lastUpdated: string;
   brand: string;
   name: string;
   weight: string;

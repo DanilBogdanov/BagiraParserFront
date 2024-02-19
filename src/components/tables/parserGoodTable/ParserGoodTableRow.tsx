@@ -24,6 +24,7 @@ export default function ParserGoodTableRow({ idx, good }: ParserGoodTableRow) {
           good.price
         )}
       </Table.Td>
+      <Table.Td>{new Date(good.lastUpdated).toLocaleString()}</Table.Td>
     </Table.Tr>
   );
 }
