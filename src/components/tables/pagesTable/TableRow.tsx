@@ -1,5 +1,5 @@
+import { ParserPage } from '@/types/competitors';
 import { Table, Switch, Group, ActionIcon } from '@mantine/core';
-import { ParserPage } from '@/types';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 
 type TableRowProps = {

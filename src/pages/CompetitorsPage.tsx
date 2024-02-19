@@ -1,17 +1,29 @@
+import ParserGoodTable from '@/components/tables/parserGoodTable/ParserGoodTable';
 import {
   useCompaniesQuery,
   useParserBrandsQuery,
 } from '@/queries/competitorsQuery';
 import { useCompetitorsStore } from '@/store/competitorsStore';
-import { AppShell, NavLink, ScrollArea, Select, Skeleton } from '@mantine/core';
+import {
+  AppShell,
+  NavLink,
+  ScrollArea,
+  Select,
+  Skeleton,
+  Title,
+} from '@mantine/core';
 
 export default function CompetitorsPage() {
-  const {
-    selectedCompanyId,
-    setSelectedCompanyId,
-    selectedBrand,
-    setSelectedBrand,
-  } = useCompetitorsStore();
+  const selectedCompanyId = useCompetitorsStore(
+    (state) => state.selectedCompanyId
+  );
+  const setSelectedCompanyId = useCompetitorsStore(
+    (state) => state.setSelectedCompanyId
+  );
+  const selectedBrand = useCompetitorsStore((state) => state.selectedBrand);
+  const setSelectedBrand = useCompetitorsStore(
+    (state) => state.setSelectedBrand
+  );
 
   const {
     data: companies,
@@ -25,6 +37,11 @@ export default function CompetitorsPage() {
     isLoading: isBrandsLoading,
   } = useParserBrandsQuery(selectedCompanyId);
 
+  const onChangeCompany = (id: number) => {
+    setSelectedCompanyId(id);
+    setSelectedBrand(null);
+  };
+
   return (
     <>
       <AppShell.Navbar>
@@ -34,7 +51,7 @@ export default function CompetitorsPage() {
             <Select
               fw={700}
               value={selectedCompanyId.toString()}
-              onChange={(id) => id && setSelectedCompanyId(+id)}
+              onChange={(id) => id && onChangeCompany(+id)}
               data={companies.map((company) => ({
                 value: company.id.toString(),
                 label: company.name,
@@ -59,7 +76,18 @@ export default function CompetitorsPage() {
             ))}
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main></AppShell.Main>
+      <AppShell.Main>
+        <Title order={2} m={'md'}>
+          {companies?.find((company) => company.id === selectedCompanyId)?.name}
+          : {selectedBrand}
+        </Title>
+        {selectedCompanyId && selectedBrand && (
+          <ParserGoodTable
+            companyId={selectedCompanyId}
+            brand={selectedBrand}
+          />
+        )}
+      </AppShell.Main>
     </>
   );
 }
