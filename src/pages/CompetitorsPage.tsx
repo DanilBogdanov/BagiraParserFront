@@ -4,7 +4,14 @@ import {
   useParserBrandsQuery,
 } from '@/queries/competitorsQuery';
 import { useCompetitorsStore } from '@/store/competitorsStore';
-import { AppShell, NavLink, ScrollArea, Select, Skeleton } from '@mantine/core';
+import {
+  AppShell,
+  NavLink,
+  ScrollArea,
+  Select,
+  Skeleton,
+  Title,
+} from '@mantine/core';
 
 export default function CompetitorsPage() {
   const {
@@ -66,6 +73,10 @@ export default function CompetitorsPage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
+        <Title order={2} m={'md'}>
+          {companies?.find((company) => company.id === selectedCompanyId)?.name}
+          : {selectedBrand}
+        </Title>
         {selectedCompanyId && selectedBrand && (
           <ParserGoodTable
             companyId={selectedCompanyId}
