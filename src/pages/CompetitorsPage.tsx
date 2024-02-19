@@ -14,12 +14,16 @@ import {
 } from '@mantine/core';
 
 export default function CompetitorsPage() {
-  const {
-    selectedCompanyId,
-    setSelectedCompanyId,
-    selectedBrand,
-    setSelectedBrand,
-  } = useCompetitorsStore();
+  const selectedCompanyId = useCompetitorsStore(
+    (state) => state.selectedCompanyId
+  );
+  const setSelectedCompanyId = useCompetitorsStore(
+    (state) => state.setSelectedCompanyId
+  );
+  const selectedBrand = useCompetitorsStore((state) => state.selectedBrand);
+  const setSelectedBrand = useCompetitorsStore(
+    (state) => state.setSelectedBrand
+  );
 
   const {
     data: companies,

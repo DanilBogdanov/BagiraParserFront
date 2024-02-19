@@ -1,6 +1,9 @@
-import { useParserGoodsQuery } from '@/queries/competitorsQuery';
-import { LoadingOverlay, Table } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { Group, LoadingOverlay, Table } from '@mantine/core';
+import AppPagination from '@/components/pagination/AppPagination';
 import ParserGoodTableRow from './ParserGoodTableRow';
+import { useParserGoodsQuery } from '@/queries/competitorsQuery';
+import { useCompetitorsStore } from '@/store/competitorsStore';
 
 type ParserGoodTableProps = {
   companyId: number;
@@ -11,9 +14,21 @@ export default function ParserGoodTable({
   companyId,
   brand,
 }: ParserGoodTableProps) {
-  const { data: goods, isLoading: isGoodsLoading } = useParserGoodsQuery({
+  const perPage = useCompetitorsStore((state) => state.perPage);
+  const setPerPage = useCompetitorsStore((state) => state.setPerPage);
+  const [activePage, setActivePage] = useState(1);
+
+  useEffect(() => setActivePage(1), [brand]);
+
+  const {
+    data: goods,
+    isSuccess: isGoodsSuccess,
+    isLoading: isGoodsLoading,
+  } = useParserGoodsQuery({
     parserCompanyId: companyId,
     brand: brand,
+    take: perPage,
+    skip: perPage * (activePage - 1),
   });
 
   const tableRows = goods?.result.map((good, idx) => (
@@ -33,6 +48,17 @@ export default function ParserGoodTable({
         </Table.Thead>
         <Table.Tbody>{tableRows}</Table.Tbody>
       </Table>
+      <Group justify='end' m={'md'}>
+        {isGoodsSuccess && (
+          <AppPagination
+            total={goods.total}
+            page={activePage}
+            onPageChange={setActivePage}
+            perPage={perPage}
+            onPerPageChange={setPerPage}
+          />
+        )}
+      </Group>
     </>
   );
 }
