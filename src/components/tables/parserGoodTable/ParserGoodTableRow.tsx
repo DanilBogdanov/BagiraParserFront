@@ -1,5 +1,5 @@
 import { ParserGood } from '@/types/competitors';
-import { Table } from '@mantine/core';
+import { Badge, Table } from '@mantine/core';
 
 type ParserGoodTableRow = {
   idx: number;
@@ -11,9 +11,18 @@ export default function ParserGoodTableRow({ idx, good }: ParserGoodTableRow) {
     <Table.Tr>
       <Table.Td>{idx}</Table.Td>
       <Table.Td>{good.goodId}</Table.Td>
-      <Table.Td>{good.name}</Table.Td>
+      <Table.Td>{`${good.name} ${good.weight}`}</Table.Td>
       <Table.Td>
-        {good.price}/{good.salePrice}
+        {good.salePrice ? (
+          <>
+            {good.salePrice}
+            <Badge variant='light' color='red' td={'line-through'}>
+              {good.price}
+            </Badge>
+          </>
+        ) : (
+          good.price
+        )}
       </Table.Td>
     </Table.Tr>
   );
