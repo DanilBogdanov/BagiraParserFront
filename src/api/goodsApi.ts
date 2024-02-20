@@ -13,7 +13,7 @@ export async function getGoodMenu(): Promise<GoodMenuItem[]> {
 }
 
 export async function getBagiraGoodNames(): Promise<BagiraGoodNameDto[]> {
-  const path = `${BASE_URL}/api/bagira/v1/bagira/goods/names`;
+  const path = `${BASE_URL}/api/parser/v1/bagira/goods/names`;
 
   const { data } = await axios.get<BagiraGoodNameDto[]>(path);
 
