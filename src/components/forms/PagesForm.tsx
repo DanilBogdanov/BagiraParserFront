@@ -1,4 +1,4 @@
-import { ParserPage } from '@/types';
+import { ParserPage } from '@/types/competitors';
 import { Button, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 

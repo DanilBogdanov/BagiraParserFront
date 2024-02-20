@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   ParserCompany,
+  ParserGood,
   ParserGoodRequest,
   ParserGoodResponse,
 } from '@/types/competitors';
@@ -37,4 +38,13 @@ export async function getParserGoods(
   });
 
   return parserGoods;
+}
+
+export async function setLinkToBagira(
+  parserGood: ParserGood,
+  goodId: number | null
+): Promise<void> {
+  const path = `${BASE_URL}/api/parser/v1/companies/${parserGood.parserCompanyId}/goods/${parserGood.id}/bagiraGoodId`;
+
+  await axios.put(path, {}, { params: { bagiraGoodId: goodId } });
 }
