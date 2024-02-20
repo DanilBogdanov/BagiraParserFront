@@ -1,8 +1,8 @@
-import { Button, Group, LoadingOverlay, Table, Text } from '@mantine/core';
+import { Box, Button, Group, LoadingOverlay, Table, Text } from '@mantine/core';
 import PagesForm from '../../forms/PagesForm';
 import TableRow from './TableRow';
 import { modals } from '@mantine/modals';
-import { ParserPage } from '@/types';
+import { ParserPage } from '@/types/competitors';
 
 type PagesTableProps = {
   pages?: ParserPage[];
@@ -85,17 +85,21 @@ export default function PagesTable({
           Add
         </Button>
       </Group>
-      <Table striped highlightOnHover pos={'relative'} withColumnBorders>
+      <Box pos={'relative'}>
         <LoadingOverlay visible={isLoading} />
-        <Table.Thead>
-          <Table.Th w={50}>#</Table.Th>
-          <Table.Th w={60}>Active</Table.Th>
-          <Table.Th>Name</Table.Th>
-          <Table.Th>Url</Table.Th>
-          <Table.Th w={100}>Actions</Table.Th>
-        </Table.Thead>
-        <Table.Tbody>{tableRows}</Table.Tbody>
-      </Table>
+        <Table striped highlightOnHover withColumnBorders>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th w={50}>#</Table.Th>
+              <Table.Th w={60}>Active</Table.Th>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Url</Table.Th>
+              <Table.Th w={100}>Actions</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{tableRows}</Table.Tbody>
+        </Table>
+      </Box>
     </>
   );
 }
