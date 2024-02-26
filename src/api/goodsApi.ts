@@ -12,13 +12,7 @@ export async function getGoodMenu(): Promise<GoodMenuItem[]> {
   return menuProps;
 }
 
-export async function getBagiraGoodNames(): Promise<BagiraGoodNameDto[]> {
-  const path = `${BASE_URL}/api/parser/v1/bagira/goods/names`;
 
-  const { data } = await axios.get<BagiraGoodNameDto[]>(path);
-
-  return data;
-}
 
 const getMenuProps = (
   goodMenu: GoodMenu[],

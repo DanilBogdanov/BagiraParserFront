@@ -4,7 +4,7 @@ import {
   getParserGoods,
   setLinkToBagira,
 } from '@/api/competitorsApi';
-import { getBagiraGoodNames } from '@/api/goodsApi';
+import { getBagiraGoodNames } from '@/api/competitorsApi';
 import { ParserGood, ParserGoodRequest } from '@/types/competitors';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
