@@ -1,4 +1,4 @@
-import { getGoodMenu } from '@/api/goodsApi';
+import { getGoodMenu } from '@/api/pricesApi';
 import { useQuery } from '@tanstack/react-query';
 
 const STALE_TIME = 1000 * 60 * 10;
