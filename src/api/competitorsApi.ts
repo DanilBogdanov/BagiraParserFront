@@ -5,6 +5,7 @@ import {
   ParserGoodRequest,
   ParserGoodResponse,
 } from '@/types/competitors';
+import { BagiraGoodNameDto } from '@/types';
 
 const BASE_URL = 'https://danildev.net';
 
@@ -47,4 +48,12 @@ export async function setLinkToBagira(
   const path = `${BASE_URL}/api/parser/v1/companies/${parserGood.parserCompanyId}/goods/${parserGood.id}/bagiraGoodId`;
 
   await axios.put(path, {}, { params: { bagiraGoodId: goodId } });
+}
+
+export async function getBagiraGoodNames(): Promise<BagiraGoodNameDto[]> {
+  const path = `${BASE_URL}/api/parser/v1/bagira/goods/names`;
+
+  const { data } = await axios.get<BagiraGoodNameDto[]>(path);
+
+  return data;
 }
