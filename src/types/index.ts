@@ -10,3 +10,8 @@ export interface GoodResponse<T> {
   total: number;
   result: T[];
 }
+
+export interface GoodRequest {
+  take?: number;
+  skip?: number;
+}

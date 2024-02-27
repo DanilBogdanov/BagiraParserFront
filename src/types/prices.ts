@@ -1,3 +1,4 @@
+import { GoodRequest } from '.';
 import { ParserGood } from './competitors';
 
 export interface GoodMenu {
@@ -12,4 +13,8 @@ export interface BagiraGood {
   name: string;
   price: number;
   parserGoods: ParserGood[];
+}
+
+export interface BagiraGoodRequest extends GoodRequest {
+  parentId: number | null;
 }
