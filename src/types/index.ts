@@ -3,3 +3,10 @@ export enum AppPages {
   Competitors = 'Конкуренты',
   Pages = 'Страницы',
 }
+
+export interface GoodResponse<T> {
+  take: number;
+  skip: number;
+  total: number;
+  result: T[];
+}

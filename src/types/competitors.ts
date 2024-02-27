@@ -31,13 +31,6 @@ export interface ParserGoodRequest {
   skip?: number;
 }
 
-export interface ParserGoodResponse {
-  take: number;
-  skip: number;
-  total: number;
-  result: ParserGood[];
-}
-
 export interface BagiraGoodNameDto {
   id: number;
   name: string;
