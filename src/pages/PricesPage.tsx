@@ -9,6 +9,7 @@ import {
 import { useGoodMenuQuery } from '@/queries/pricesQuery';
 import GoodsMenu from '@/components/menu/GoodsMenu';
 import { usePricesStore } from '@/store/pricesStore';
+import { BagiraGoodTable } from '@/components/tables';
 
 export default function PricesPage() {
   const selectedGroup = usePricesStore((state) => state.selectedGroup);
@@ -34,6 +35,7 @@ export default function PricesPage() {
         <Title order={3} m={'md'}>
           {selectedGroup?.name}
         </Title>
+        {selectedGroup && <BagiraGoodTable groupId={selectedGroup.id} />}
       </AppShellMain>
     </>
   );

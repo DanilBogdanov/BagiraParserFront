@@ -1,4 +1,4 @@
-import ParserGoodTable from '@/components/tables/parserGoodTable/ParserGoodTable';
+import { ParserGoodTable } from '@/components/tables';
 import {
   useCompaniesQuery,
   useParserBrandsQuery,
