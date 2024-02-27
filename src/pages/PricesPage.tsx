@@ -4,11 +4,15 @@ import {
   AppShellSection,
   ScrollArea,
   Skeleton,
+  Title,
 } from '@mantine/core';
 import { useGoodMenuQuery } from '@/queries/pricesQuery';
 import GoodsMenu from '@/components/menu/GoodsMenu';
+import { usePricesStore } from '@/store/pricesStore';
 
 export default function PricesPage() {
+  const selectedGroup = usePricesStore((state) => state.selectedGroup);
+
   const {
     data: goodMenu,
     isLoading: isMenuLoading,
@@ -26,7 +30,11 @@ export default function PricesPage() {
           {isMenuSuccess && <GoodsMenu goodMenu={goodMenu} />}
         </AppShellSection>
       </AppShellNavbar>
-      <AppShellMain></AppShellMain>
+      <AppShellMain>
+        <Title order={3} m={'md'}>
+          {selectedGroup?.name}
+        </Title>
+      </AppShellMain>
     </>
   );
 }
