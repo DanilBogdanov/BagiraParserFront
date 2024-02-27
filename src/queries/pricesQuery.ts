@@ -5,7 +5,7 @@ const STALE_TIME = 1000 * 60 * 10;
 
 export const useGoodMenuQuery = () =>
   useQuery({
-    queryKey: ['parser-companies'],
+    queryKey: ['bagira-goods'],
     queryFn: getGoodMenu,
     staleTime: STALE_TIME,
   });
