@@ -35,7 +35,7 @@ export default function PricesPage() {
         <Title order={3} m={'md'}>
           {selectedGroup?.name}
         </Title>
-        {selectedGroup && <BagiraGoodTable groupId={selectedGroup.id} />}
+        {selectedGroup && <BagiraGoodTable parentId={selectedGroup.id} />}
       </AppShellMain>
     </>
   );
