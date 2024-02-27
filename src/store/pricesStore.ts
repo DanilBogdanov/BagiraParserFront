@@ -2,9 +2,14 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+type Group = {
+  id: number;
+  name: string;
+};
+
 type PricesStore = {
-  selectedGroup: number | null;
-  setSelectedGroup: (id: number) => void;
+  selectedGroup: Group | null;
+  setSelectedGroup: (group: Group) => void;
   selectedPath: string;
   setSelectedPath: (path: string) => void;
 };
@@ -13,9 +18,9 @@ export const usePricesStore = create<PricesStore>()(
   persist(
     immer((set) => ({
       selectedGroup: null,
-      setSelectedGroup: (id: number) =>
+      setSelectedGroup: (group: Group) =>
         set((state) => {
-          state.selectedGroup = id;
+          state.selectedGroup = group;
         }),
       selectedPath: '',
       setSelectedPath: (path: string) =>

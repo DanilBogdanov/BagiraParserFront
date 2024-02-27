@@ -1,5 +1,5 @@
 import { usePricesStore } from '@/store/pricesStore';
-import { GoodMenu } from '@/types';
+import { GoodMenu } from '@/types/prices';
 import { NavLink } from '@mantine/core';
 
 type GoodsMenuProps = {
@@ -24,7 +24,7 @@ export default function GoodsMenu({ goodMenu }: GoodsMenuProps) {
           opened={isActive}
           variant='filled'
           onClick={() => {
-            setSelectedGroup(menuItem.id);
+            setSelectedGroup({ id: menuItem.id, name: menuItem.name });
             setSelectedPath(`${menuItem.path}${menuItem.id}/`);
           }}
         >
