@@ -77,7 +77,7 @@ export default function CompetitorsPage() {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Title order={2} m={'md'}>
+        <Title order={3} m={'md'}>
           {companies?.find((company) => company.id === selectedCompanyId)?.name}
           : {selectedBrand}
         </Title>
