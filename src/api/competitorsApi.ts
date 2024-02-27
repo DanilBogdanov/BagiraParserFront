@@ -5,7 +5,7 @@ import {
   ParserGoodRequest,
   ParserGoodResponse,
 } from '@/types/competitors';
-import { BagiraGoodNameDto } from '@/types';
+import { BagiraGoodNameDto } from '@/types/competitors';
 
 const BASE_URL = 'https://danildev.net';
 

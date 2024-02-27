@@ -37,3 +37,8 @@ export interface ParserGoodResponse {
   total: number;
   result: ParserGood[];
 }
+
+export interface BagiraGoodNameDto {
+  id: number;
+  name: string;
+}

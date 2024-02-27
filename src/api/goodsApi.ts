@@ -1,4 +1,4 @@
-import { GoodMenu } from '@/types';
+import { GoodMenu } from '@/types/prices';
 import axios from 'axios';
 
 const BASE_URL = 'https://danildev.net';
