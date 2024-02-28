@@ -54,6 +54,9 @@ export const useSetLinkToBagiraMutation = () => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.ParserGoods],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.BagiraGoods],
+      });
     },
   });
 };
