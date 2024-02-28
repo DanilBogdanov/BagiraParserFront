@@ -5,6 +5,7 @@ import {
   setLinkToBagira,
 } from '@/api/competitorsApi';
 import { getBagiraGoodNames } from '@/api/competitorsApi';
+import { QueryKeys } from '@/types';
 import { ParserGood, ParserGoodRequest } from '@/types/competitors';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -12,28 +13,28 @@ const STALE_TIME = 1000 * 60 * 10;
 
 export const useCompaniesQuery = () =>
   useQuery({
-    queryKey: ['parser-companies'],
+    queryKey: [QueryKeys.ParserCompanies],
     queryFn: getParserCompanies,
     staleTime: STALE_TIME,
   });
 
 export const useParserBrandsQuery = (companyId: number) =>
   useQuery({
-    queryKey: ['parser-brands', companyId],
+    queryKey: [QueryKeys.ParserBrands, companyId],
     queryFn: () => getParserBrands(companyId),
     staleTime: STALE_TIME,
   });
 
 export const useParserGoodsQuery = (request: ParserGoodRequest) =>
   useQuery({
-    queryKey: ['parser-goods', JSON.stringify(request)],
+    queryKey: [QueryKeys.ParserGoods, JSON.stringify(request)],
     queryFn: () => getParserGoods(request),
     staleTime: STALE_TIME,
   });
 
 export const useBagiraGoodNamesQuery = () =>
   useQuery({
-    queryKey: ['bagira-good-names'],
+    queryKey: [QueryKeys.BagiraGoodNames],
     queryFn: getBagiraGoodNames,
     staleTime: STALE_TIME,
   });
@@ -51,7 +52,7 @@ export const useSetLinkToBagiraMutation = () => {
     }) => setLinkToBagira(parserGood, goodId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['parser-goods'],
+        queryKey: [QueryKeys.ParserGoods],
       });
     },
   });
