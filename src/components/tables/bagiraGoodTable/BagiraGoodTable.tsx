@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useCompaniesQuery } from '@/queries/competitorsQuery';
 import { useBagiraGoodQuery } from '@/queries/pricesQuery';
 import { BagiraGood } from '@/types/prices';
@@ -16,6 +17,8 @@ export default function BagiraGoodTable({ parentId }: BagiraGoodTableProps) {
   const setPerPage = usePricesStore((state) => state.setPerPage);
   const activePage = usePricesStore((state) => state.activePage);
   const setActivePage = usePricesStore((state) => state.setActivePage);
+
+  useEffect(() => setActivePage(1), [parentId, setActivePage]);
 
   const {
     data: bagiraGoods,
