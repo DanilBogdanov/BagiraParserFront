@@ -15,3 +15,13 @@ export interface GoodRequest {
   take?: number;
   skip?: number;
 }
+
+export enum QueryKeys {
+  ParserCompanies = 'parser-companies',
+  ParserBrands = 'parser-brands',
+  ParserGoods = 'parser-goods',
+  BagiraGoods = 'bagira-goods',
+  BagiraMenu = 'bagira-menu',
+  BagiraGoodNames = 'bagira-good-names',
+  ParserPages = 'parser-pages',
+}
