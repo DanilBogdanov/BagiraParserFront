@@ -1,3 +1,5 @@
+import { GoodRequest } from '.';
+
 export interface ParserCompany {
   id: number;
   name: string;
@@ -24,16 +26,12 @@ export interface ParserGood {
   imgUrl: string | null;
 }
 
-export interface ParserGoodRequest {
+export interface ParserGoodRequest extends GoodRequest {
   parserCompanyId: number;
   brand: string;
-  take?: number;
-  skip?: number;
 }
 
-export interface ParserGoodResponse {
-  take: number;
-  skip: number;
-  total: number;
-  result: ParserGood[];
+export interface BagiraGoodNameDto {
+  id: number;
+  name: string;
 }

@@ -4,14 +4,14 @@ export enum AppPages {
   Pages = 'Страницы',
 }
 
-export interface GoodMenu {
-  id: number;
-  name: string;
-  path: string;
-  children: GoodMenu[] | null;
+export interface GoodResponse<T> {
+  take: number;
+  skip: number;
+  total: number;
+  result: T[];
 }
 
-export interface BagiraGoodNameDto {
-  id: number;
-  name: string;
+export interface GoodRequest {
+  take?: number;
+  skip?: number;
 }

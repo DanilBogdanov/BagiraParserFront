@@ -3,9 +3,9 @@ import {
   ParserCompany,
   ParserGood,
   ParserGoodRequest,
-  ParserGoodResponse,
 } from '@/types/competitors';
-import { BagiraGoodNameDto } from '@/types';
+import { BagiraGoodNameDto } from '@/types/competitors';
+import { GoodResponse } from '@/types';
 
 const BASE_URL = 'https://danildev.net';
 
@@ -27,16 +27,19 @@ export async function getParserBrands(companyId: number): Promise<string[]> {
 
 export async function getParserGoods(
   parserGoodRequest: ParserGoodRequest
-): Promise<ParserGoodResponse> {
+): Promise<GoodResponse<ParserGood>> {
   const path = `${BASE_URL}/api/parser/v1/companies/${parserGoodRequest.parserCompanyId}/goods`;
 
-  const { data: parserGoods } = await axios.get<ParserGoodResponse>(path, {
-    params: {
-      brand: parserGoodRequest.brand,
-      take: parserGoodRequest.take,
-      skip: parserGoodRequest.skip,
-    },
-  });
+  const { data: parserGoods } = await axios.get<GoodResponse<ParserGood>>(
+    path,
+    {
+      params: {
+        brand: parserGoodRequest.brand,
+        take: parserGoodRequest.take,
+        skip: parserGoodRequest.skip,
+      },
+    }
+  );
 
   return parserGoods;
 }
