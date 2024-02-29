@@ -7,6 +7,7 @@ import {
   OptionsFilter,
   ComboboxItem,
   LoadingOverlay,
+  Stack,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useBagiraGoodNamesQuery } from '@/queries/competitorsQuery';
@@ -34,19 +35,21 @@ export default function SetLinkForm({ good, onSubmit }: SetLinkFormProps) {
     const splittedSearch = search.toLowerCase().trim().split(' ');
     const results: ComboboxItem[] = [];
 
-    for (let i = 0; i < options.length; i += 1) {
-      if (results.length === limit) {
-        break;
-      }
+    if (search) {
+      for (let i = 0; i < options.length; i += 1) {
+        if (results.length === limit) {
+          break;
+        }
 
-      const item = options[i] as ComboboxItem;
-      const words = item.label.toLowerCase().trim().split(' ');
-      const wordsHasSearch = splittedSearch.every((searchWord) =>
-        words.some((word) => word.includes(searchWord))
-      );
+        const item = options[i] as ComboboxItem;
+        const words = item.label.toLowerCase().trim().split(' ');
+        const wordsHasSearch = splittedSearch.every((searchWord) =>
+          words.some((word) => word.includes(searchWord))
+        );
 
-      if (wordsHasSearch) {
-        results.push(item);
+        if (wordsHasSearch) {
+          results.push(item);
+        }
       }
     }
 
@@ -54,43 +57,47 @@ export default function SetLinkForm({ good, onSubmit }: SetLinkFormProps) {
   };
 
   return (
-    <>
-      <Title order={5} mb={'md'}>
-        {good.brand}
-      </Title>
-      <Title order={6} mb={'md'}>
-        {`${good.name} ${good.weight}`}
-      </Title>
-      <form
-        onSubmit={form.onSubmit((values) =>
-          onSubmit(good, values.goodId ? +values.goodId : null)
-        )}
-      >
-        <LoadingOverlay visible={isNamesLoading} />
-        {isSuccessNames && (
-          <Select
-            searchable
-            clearable
-            filter={optionsFilter}
-            placeholder='not linked'
-            label='Select goods'
-            limit={10}
-            data={names.map((name) => ({
-              value: name.id.toString(),
-              label: name.name,
-            }))}
-            {...form.getInputProps('goodId')}
-          />
-        )}
+    <Group gap={0}>
+      {good.imgUrl && (
         <Group justify='center'>
           {good.imgUrl && (
-            <Image w={250} h={250} m={'sm'} radius={'md'} src={good.imgUrl} />
+            <Image w={250} h={250} radius={'md'} src={good.imgUrl} />
           )}
         </Group>
-        <Group justify='flex-end' mt={'md'}>
-          <Button type='submit'>Save</Button>
-        </Group>
-      </form>
-    </>
+      )}
+      <Stack w={400}>
+        <Title order={5} mb={'md'}>
+          {good.brand}
+        </Title>
+        <Title order={6} mb={'md'}>
+          {`${good.name} ${good.weight}`}
+        </Title>
+        <form
+          onSubmit={form.onSubmit((values) =>
+            onSubmit(good, values.goodId ? +values.goodId : null)
+          )}
+        >
+          <LoadingOverlay visible={isNamesLoading} />
+          {isSuccessNames && (
+            <Select
+              searchable
+              clearable
+              filter={optionsFilter}
+              placeholder='not linked'
+              label='Select goods'
+              limit={10}
+              data={names.map((name) => ({
+                value: name.id.toString(),
+                label: name.name,
+              }))}
+              {...form.getInputProps('goodId')}
+            />
+          )}
+          <Group justify='flex-end' mt={'md'}>
+            <Button type='submit'>Save</Button>
+          </Group>
+        </form>
+      </Stack>
+    </Group>
   );
 }

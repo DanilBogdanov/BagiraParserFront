@@ -51,6 +51,7 @@ export default function ParserGoodTable({
         />
       ),
       centered: true,
+      size: 'auto',
     });
   };
 
