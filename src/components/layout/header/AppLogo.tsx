@@ -1,5 +1,3 @@
-import Icon from '@ant-design/icons';
-
 const BagiraSvg = () => (
   <svg
     width='133'
@@ -18,5 +16,5 @@ const BagiraSvg = () => (
 );
 
 export default function AppLogo() {
-  return <Icon component={BagiraSvg}></Icon>;
+  return <BagiraSvg />;
 }

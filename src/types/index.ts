@@ -4,35 +4,24 @@ export enum AppPages {
   Pages = 'Страницы',
 }
 
-export interface GoodMenu {
-  id: number;
-  name: string;
-  children: GoodMenu[] | null;
+export interface GoodResponse<T> {
+  take: number;
+  skip: number;
+  total: number;
+  result: T[];
 }
 
-export interface GoodMenuItem {
-  id: number;
-  name: string;
-  path: string;
-  key: string;
-  label: string;
-  children: GoodMenuItem[] | null;
+export interface GoodRequest {
+  take?: number;
+  skip?: number;
 }
 
-export interface BagiraGoodNameDto {
-  id: number;
-  name: string;
-}
-
-export interface ParserCompany {
-  id: number;
-  name: string;
-}
-
-export interface ParserPage {
-  id: number;
-  parserCompanyId: number;
-  name: string;
-  isActive: boolean;
-  url: string;
+export enum QueryKeys {
+  ParserCompanies = 'parser-companies',
+  ParserBrands = 'parser-brands',
+  ParserGoods = 'parser-goods',
+  BagiraGoods = 'bagira-goods',
+  BagiraMenu = 'bagira-menu',
+  BagiraGoodNames = 'bagira-good-names',
+  ParserPages = 'parser-pages',
 }

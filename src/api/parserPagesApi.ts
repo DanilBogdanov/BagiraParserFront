@@ -1,4 +1,4 @@
-import { ParserPage } from '@/types';
+import { ParserPage } from '@/types/competitors';
 import axios from 'axios';
 
 const BASE_URL = 'https://danildev.net';
@@ -16,9 +16,13 @@ export async function getParserPages(
 export async function createParserPage(parserPage: ParserPage): Promise<void> {
   const path = `${BASE_URL}/api/parser/v1/companies/${parserPage.parserCompanyId}/pages`;
 
-  await axios.post(path, {
-    parserPage,
-  });
+  await axios.post(path, parserPage);
+}
+
+export async function updateParserPage(parserPage: ParserPage): Promise<void> {
+  const path = `${BASE_URL}/api/parser/v1/companies/${parserPage.parserCompanyId}/pages/${parserPage.id}`;
+
+  await axios.put(path, parserPage);
 }
 
 export async function deleteParserPage(
